@@ -1,0 +1,95 @@
+%@+leo-ver=4-thin
+%@+node:gcross.20091027203719.1386:@thin FockDarwin.tex
+%@@language latex
+%\documentclass[onecolumn,amsmath,amssymb,nofootinbib,floatfix]{revtex4}
+\documentclass{article}
+\usepackage{amsmath,amssymb}
+
+\usepackage{ulem}
+\input{notes-prelude.in}
+
+\begin{document}
+
+Consider the case of $N$ bosons in a circular cross-section trap
+rotating with angular velocity $\Omega$;  the Hamiltonian for such a
+system is given by
+$$H = \sum_{i=1}^N \left[\frac{p_{x_i}^2 + p_{y_i}^2 + p_{z_i}^2}{2} - \Omega(x_i
+  p_{y_i} - y p_{x_i}) + \frac{\om^2}{2}(x^2+y^2) + \frac{\om_z^2}{2}z^2\right].$$
+
+We define the ladder operators
+$$
+\begin{aligned}
+&a_i:= \sqrt{\frac{\om}{2}}x_i + i\sqrt{\frac{1}{2\om}}p_{x_i},
+&a_i^\dagger := \sqrt{\frac{\om}{2}}x_i - i\sqrt{\frac{1}{2\om}}p_{x_i},\\
+&b_i:= \sqrt{\frac{\om}{2}}y_i + i\sqrt{\frac{1}{2\om}}p_{y_i},
+&b_i^\dagger := \sqrt{\frac{\om}{2}}y_i - i\sqrt{\frac{1}{2\om}}p_{y_i} ,\\
+&c_i:= \sqrt{\frac{\om_z}{2}}z_i + i\sqrt{\frac{1}{2\om_z}}p_{z_i},
+&c_i^\dagger := \sqrt{\frac{\om_z}{2}}z_i - i\sqrt{\frac{1}{2\om_z}}p_{z_i} ,\\
+\end{aligned}
+$$
+and then observe that using these operators we can re-write our
+original Hamiltonian in the form,
+
+$$
+\begin{aligned}
+H
+&= \sum_{i=1}^N \left[\om\paren{a_i^\dagger a_i + b^\dagger b + 1} +  \om_z\paren{c_i^\dagger c_i + \half} - i\Omega\paren{a_i^\dagger b_i - b_i^\dagger a_i}\right],\\
+\end{aligned}
+$$
+To diagonalize this, we let
+$$
+\begin{aligned}
+&\gamma_i := \frac{a_i + i b_i}{\sqrt{2}}, \quad \eta_i := \frac{i a_i + b_i}{\sqrt{2}},
+&\Rightarrow\quad a_i = \sqrt{2}(\gamma_i - i \eta_i), \quad b_i = \sqrt{2}(\eta_i - i \gamma_i).
+\end{aligned}
+$$
+Note that
+$$
+\begin{aligned}
+\left[\gamma_i,\gamma_i^\dagger\right] &=
+  \frac{\left[a_i,a_i^\dagger\right] +
+  \left[ib_i,-ib_i^\dagger\right]}{2} = \frac{1+1}{2} = 1,\\
+\left[\eta_i,\eta_i^\dagger\right] &=
+  \frac{\left[i a_i,-i a_i^\dagger\right] +
+  \left[b_i,b_i^\dagger\right]}{2} = \frac{1+1}{2} = 1,
+\end{aligned}
+$$
+so we see that these new ladder operators satisfy the usual
+commutation relations.  Rewriting our Hamiltonian in terms of these
+operators, we obtain
+$$
+\begin{aligned}
+H
+&=  \sum_{i=1}^N \left\{\om\left[\gamma_i^\dagger\gamma_i + \eta_i^\dagger\eta_i + \half\right] + \om_z\paren{c_i^\dagger c_i + \half}+ \Omega\left[\gamma_i^\dagger\gamma_i - \eta_i^\dagger\eta_i\right]\right\}
+\end{aligned}
+$$
+We now want to examine the angular momentum of eigenstates of the Hamiltonian.
+First, we note that the position and momentum operators can be expressed in terms of the new ladder operators as follows:
+$$
+\begin{aligned}[]
+x_i &= \frac{1}{2\sqrt{\om}}[\gamma_i^\dagger + \gamma_i+ i(\eta_i^\dagger-\eta_i)]\\
+y_i &= \frac{1}{2\sqrt{\om}}[\eta_i^\dagger + \eta_i+ i(\gamma_i^\dagger-\gamma_i)]\\
+p_{x_i} &= i\frac{\sqrt{\om}}{2}[\gamma_i^\dagger - \gamma_i + i(\eta_i^\dagger + \eta_i)]\\
+p_{y_i} &=i\frac{\sqrt{\om}}{2}[\eta_i^\dagger - \eta_i + i(\gamma_i^\dagger + \gamma_i)]\\
+\end{aligned}
+$$
+We first shall write the angular momentum operators in terms of the ladder operators:
+$$
+\begin{aligned}
+J_{x_i} &= y_ip_{z_i} - z_ip_{y_i} =+ \sqrt{\frac{}{2m\om}}[\eta_i^\dagger + \eta_i+ i(\gamma_i^\dagger-\gamma_i)] i\sqrt{\frac{\om_z m}{2}}[c_i^\dagger - c_i] -  \sqrt{\frac{}{2m\om_z}}[c_i^\dagger+c_i]  i\sqrt{\frac{\om m}{2}}[\eta_i^\dagger - \eta_i + i(\gamma_i^\dagger + \gamma_i)] \\
+&= \frac{}{2}\left\{-\sqrt{\frac{\om_z}{\om}}[(\gamma_i^\dagger-\gamma_i) -i(\eta_i^\dagger + \eta_i)] [c_i^\dagger - c_i] +  \sqrt{\frac{\om}{\om_z}} [ (\gamma_i^\dagger + \gamma_i) -i(\eta_i^\dagger - \eta_i)][c_i^\dagger+c_i] \right\}\\
+J_{x_i}^2 &= \frac{^2}{4}\left\{-\sqrt{\frac{\om_z}{\om}}[(\gamma_i^\dagger-\gamma_i) -i(\eta_i^\dagger + \eta_i)] [c_i^\dagger - c_i] +  \sqrt{\frac{\om}{\om_z}} [ (\gamma_i^\dagger + \gamma_i) -i(\eta_i^\dagger - \eta_i)][c_i^\dagger+c_i] \right\}^2\\
+\end{aligned}
+$$
+$$
+\begin{aligned}
+J_{y_i} &= z_ip_{x_i} - x_ip_{z_i} = - \sqrt{\frac{}{2m\om}}[\gamma_i^\dagger + \gamma_i+ i(\eta_i^\dagger-\eta_i)]i\sqrt{\frac{\om_z m}{2}}[c_i^\dagger - c_i] + i\sqrt{\frac{\om m}{2}}[\gamma_i^\dagger - \gamma_i + i(\eta_i^\dagger + \eta_i)]\sqrt{\frac{}{2m\om_z}}[c_i^\dagger+c_i]\\
+&= \frac{}{2}\left\{\sqrt{\frac{\om_z}{\om}}[(\eta_i^\dagger-\eta_i) - i(\gamma_i^\dagger + \gamma_i)][c_i^\dagger - c_i] - \frac{}{2}[(\eta_i^\dagger + \eta_i)-i(\gamma_i^\dagger - \gamma_i)][c_i^\dagger+c_i]\right\}\\
+J_{z_i}&=\eta_i^\dagger\eta_i - \gamma_i^\dagger\gamma_i\\
+\end{aligned}
+$$
+Observe that $[J_{z_i},H]=0$, so that the $z$ component of angular momentum and the energy can be known simultaneously.  Furthermore, all states which are eigenstates of $\gamma_i^\dagger\gamma_i$ and $\eta_i^\dagger\eta_i$ are also eigenstates of $J_z$.
+Now let us consider $J_i^2$, so that we now need to calculate
+\end{document}
+%@-node:gcross.20091027203719.1386:@thin FockDarwin.tex
+%@-leo

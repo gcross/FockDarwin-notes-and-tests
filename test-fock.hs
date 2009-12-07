@@ -67,6 +67,10 @@ nt = 1/sqrt 2*|(bt |-| i*|at)
 j_x = y.p_z |-| z.p_y
 j_y = z.p_x |-| x.p_z
 j_z = x.p_y |-| y.p_x
+
+jx = j_x
+jy = j_y
+jz = j_z
 -- @-node:gcross.20091206205300.1498:j_x, j_y, j_z
 -- @-node:gcross.20091204093401.3559:Operators
 -- @+node:gcross.20091204093401.3557:Hamiltonians
@@ -109,6 +113,12 @@ infix 4 ~=~
 (~=~) o1 o2 f v = o1 f $> v ~= o2 f $> v
 -- @-node:gcross.20091206205300.1385:=~=
 -- @-node:gcross.20091204093401.3991:Functions
+-- @+node:gcross.20091207130316.1295:Miscellaneous expressions
+-- @+node:gcross.20091207130316.1296:t1/t2
+t1 = osum [gt.g,g.gt,nt.n,n.nt]
+t2 = nt.gt |-| n.g
+-- @-node:gcross.20091207130316.1296:t1/t2
+-- @-node:gcross.20091207130316.1295:Miscellaneous expressions
 -- @-others
 
 main = defaultMain
@@ -168,6 +178,10 @@ main = defaultMain
             ,testProperty "y" $ y ~=~ (1/2/sqrt(om)) *| (nt|+|n |+| i*|(gt|-|g) )
             -- @nonl
             -- @-node:gcross.20091206205300.1493:y
+            -- @+node:gcross.20091207130316.1292:z
+            ,testProperty "z" $ z ~=~ (1/sqrt(2*om_z)) *| (ct|+|c)
+            -- @nonl
+            -- @-node:gcross.20091207130316.1292:z
             -- @+node:gcross.20091206205300.1495:p_x
             ,testProperty "p_x" $ p_x ~=~ (i*sqrt(om)/2) *| (gt|-|g |+| i*|(nt|+|n) )
             -- @nonl
@@ -176,6 +190,10 @@ main = defaultMain
             ,testProperty "p_y" $ p_y ~=~ (i*sqrt(om)/2) *| (nt|-|n |+| i*|(gt|+|g) )
             -- @nonl
             -- @-node:gcross.20091206205300.1497:p_y
+            -- @+node:gcross.20091207130316.1294:p_z
+            ,testProperty "p_z" $ p_z ~=~ (i*sqrt(om_z/2)) *| (ct|-|c)
+            -- @nonl
+            -- @-node:gcross.20091207130316.1294:p_z
             -- @-others
             ]
         -- @-node:gcross.20091206205300.1382:Correct definition of old in terms of new
@@ -248,6 +266,32 @@ main = defaultMain
              ,(-2)*|x.px.y.py
              ]
         -- @-node:gcross.20091207130316.1279:#3
+        -- @+node:gcross.20091207130316.1286:#4
+        ,testProperty "#4" $
+            osum
+             [jx|^2
+             ,jy|^2
+             ,jz|^2
+             ]
+            ~=~
+            osum
+             [(z|^2).(px|^2 |+| py|^2)
+             ,(pz|^2).(x|^2 |+| y|^2)
+             ,(x|^2).(py|^2)
+             ,(px|^2).(y|^2)
+             ,(2*i)*|(x.px|+|y.py|+|z.pz)
+             ,(-2)*|z.pz.(x.px|+|y.py)
+             ,(-2)*|x.px.y.py
+             ]
+        -- @-node:gcross.20091207130316.1286:#4
+        -- @+node:gcross.20091207130316.1288:#5
+        ,testProperty "#5" $
+            x|^2 |+| y|^2 ~=~ (1/(2*om))*|t1 |+| (i/om)*|t2
+        -- @-node:gcross.20091207130316.1288:#5
+        -- @+node:gcross.20091207130316.1290:#6
+        ,testProperty "#6" $
+            px|^2 |+| py|^2 ~=~ (om/2)*|t1 |-| (i*om)*|t2
+        -- @-node:gcross.20091207130316.1290:#6
         -- @-others
         ]
     -- @-node:gcross.20091207130316.1274:Miscellaneous expressions

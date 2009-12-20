@@ -11,8 +11,9 @@
 <vnodes>
 <v t="gcross.20091203174755.1318" str_leo_pos="0"><vh>@chapters</vh></v>
 <v t="gcross.20091204093401.3554"><vh>@thin test-fock.hs</vh></v>
+<v t="gcross.20091220080702.2088"><vh>@thin test-phase.hs</vh></v>
 </vnodes>
 <tnodes>
-<t tx="gcross.20091203174755.1318" str_leo_pos="0"></t>
+<t tx="gcross.20091203174755.1318" str_leo_pos="1"></t>
 </tnodes>
 </leo_file>

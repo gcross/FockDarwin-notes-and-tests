@@ -12,7 +12,8 @@ import Data.Complex
 import Data.Differentiable
 import Data.Differentiable.FunctionExpansion
 import Data.Differentiable.Number
-import Data.Differentiable.Quantum3D
+import Data.Differentiable.Quantum
+import Data.Differentiable.Quantum.SingleParticle
 import Data.Differentiable.Testing
 
 import System.IO.Unsafe

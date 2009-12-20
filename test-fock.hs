@@ -209,9 +209,12 @@ main = defaultMain
         -- @+node:gcross.20091212141130.1304:Correct simplification of the new
         ,testGroup "Correct simplification of the new"
             -- @    @+others
-            -- @+node:gcross.20091212141130.1305:n
-            [testProperty "n" $ n =~= (sqrt(om)/2) *| (i*|x - (1/om)*|px + y + (i/om)*|py)
-            -- @-node:gcross.20091212141130.1305:n
+            -- @+node:gcross.20091212141130.1305:nt
+            [testProperty "nt" $ nt =~= (sqrt(om)/2) *| (-i*|x - (1/om)*|px + y - (i/om)*|py)
+            -- @-node:gcross.20091212141130.1305:nt
+            -- @+node:gcross.20091212141130.1806:n
+            ,testProperty "nt" $ nt =~= (sqrt(om)/2) *| (-i*|(x - 1/om*|(d X)) + (y - (1/om)*|(d Y)))
+            -- @-node:gcross.20091212141130.1806:n
             -- @-others
             ]
         -- @-node:gcross.20091212141130.1304:Correct simplification of the new
@@ -244,6 +247,21 @@ main = defaultMain
         -- @-others
         ]
     -- @-node:gcross.20091206205300.1499:Angular momentum tests
+    -- @+node:gcross.20091212141130.1632:Derivatives
+    ,testGroup "Derivatives"
+        -- @    @+others
+        -- @+node:gcross.20091212141130.1634:d exp(-x^2)
+        [testProperty "d exp(-x^2)" $
+            d X (exp (-vx*vx)) =~= const (-2) * vx * exp (-vx*vx)
+        -- @-node:gcross.20091212141130.1634:d exp(-x^2)
+        -- @+node:gcross.20091212141130.1649:nt on ground state
+        ,testProperty "nt on ground state" $
+            liftA2 (=~=) (nt.) ((sqrt(om) *| (y - i*|x) ).) (exp $ (om/2) *|| (-vx*vx-vy*vy))
+
+        -- @-node:gcross.20091212141130.1649:nt on ground state
+        -- @-others
+        ]
+    -- @-node:gcross.20091212141130.1632:Derivatives
     -- @+node:gcross.20091207130316.1274:Miscellaneous expressions
     ,testGroup "Miscellaneous expressions"
         -- @    @+others

@@ -8,12 +8,12 @@ import Control.Applicative
 import Control.Applicative.Infix
 
 import Data.Complex
+import Data.Function
 
 import Data.Differentiable
 import Data.Differentiable.FunctionExpansion
 import Data.Differentiable.Number
 import Data.Differentiable.Quantum
-import Data.Differentiable.Quantum.SingleParticle
 import Data.Differentiable.Testing
 
 import System.IO.Unsafe
@@ -103,7 +103,7 @@ diagonalized_hamiltonian =
 -- @-node:gcross.20091204093401.3557:Hamiltonians
 -- @+node:gcross.20091204093401.3991:Functions
 -- @+node:gcross.20091212141130.1615:vx, vy, vz
-vx, vy, vz :: (Complex Double,Complex Double,Complex Double) -> FunctionExpansion (Complex Double)
+vx, vy, vz :: DifferentiableFunction (Complex Double)
 vx = v_ X
 vy = v_ Y
 vz = v_ Z
@@ -252,11 +252,11 @@ main = defaultMain
         -- @    @+others
         -- @+node:gcross.20091212141130.1634:d exp(-x^2)
         [testProperty "d exp(-x^2)" $
-            d X (exp (-vx*vx)) =~= const (-2) * vx * exp (-vx*vx)
+            d X (exp (-vx*vx)) . getArg =~= (const (-2) * vx * exp (-vx*vx)) . getArg
         -- @-node:gcross.20091212141130.1634:d exp(-x^2)
         -- @+node:gcross.20091212141130.1649:nt on ground state
         ,testProperty "nt on ground state" $
-            liftA2 (=~=) (nt.) ((sqrt(om) *| (y - i*|x) ).) (exp $ (om/2) *|| (-vx*vx-vy*vy))
+            liftA2 ((=~=) `on` (.getArg)) (nt.) ((sqrt(om) *| (y - i*|x) ).) (exp $ (om/2) *|| (-vx*vx-vy*vy))
 
         -- @-node:gcross.20091212141130.1649:nt on ground state
         -- @-others

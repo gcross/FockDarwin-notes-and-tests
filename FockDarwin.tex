@@ -1,7 +1,3 @@
-%@+leo-ver=4-thin
-%@+node:gcross.20091027203719.1386:@thin FockDarwin.tex
-%@@language latex
-%\documentclass[onecolumn,amsmath,amssymb,nofootinbib,floatfix]{revtex4}
 \documentclass{article}
 \usepackage{amsmath,amssymb}
 
@@ -10,9 +6,7 @@
 
 \begin{document}
 
-Consider the case of $N$ bosons in a circular cross-section trap
-rotating with angular velocity $\Omega$;  the Hamiltonian for such a
-system is given by
+Consider the case of $N$ bosons in a circular cross-section trap rotating with angular velocity $\Omega$.  Setting $\hbar=m=1$, the Hamiltonian for such a system is given by
 $$H = \sum_{i=1}^N \left[\frac{p_{x_i}^2 + p_{y_i}^2 + p_{z_i}^2}{2} - \Omega(x_i
   p_{y_i} - y p_{x_i}) + \frac{\om^2}{2}(x^2+y^2) + \frac{\om_z^2}{2}z^2\right].$$
 
@@ -40,7 +34,7 @@ To diagonalize this, we let
 $$
 \begin{aligned}
 &\gamma_i := \frac{a_i + i b_i}{\sqrt{2}}, \quad \eta_i := \frac{i a_i + b_i}{\sqrt{2}},
-&\Rightarrow\quad a_i = \sqrt{2}(\gamma_i - i \eta_i), \quad b_i = \sqrt{2}(\eta_i - i \gamma_i).
+&\Rightarrow\quad a_i = \frac{\gamma_i - i \eta_i}{\sqrt 2}, \quad b_i =\frac{\eta_i - i \gamma_i}{\sqrt 2}.
 \end{aligned}
 $$
 Note that
@@ -60,38 +54,38 @@ operators, we obtain
 $$
 \begin{aligned}
 H
-&=  \sum_{i=1}^N \left\{\om\left[\gamma_i^\dagger\gamma_i + \eta_i^\dagger\eta_i + 1\right] + \om_z\paren{c_i^\dagger c_i + \half}+ \Omega\left[\gamma_i^\dagger\gamma_i - \eta_i^\dagger\eta_i\right]\right\}
+&=  \sum_{i=1}^N \left\{\om\left[\gamma_i^\dagger\gamma_i + \eta_i^\dagger\eta_i + 1\right] + \om_z\paren{c_i^\dagger c_i + \half}+ \Omega\left[\eta_i^\dagger\eta_i - \gamma_i^\dagger\gamma_i\right]\right\}
 \end{aligned}
 $$
-We now want to examine the angular momentum of eigenstates of the Hamiltonian.
-First, we note that the position and momentum operators can be expressed in terms of the new ladder operators as follows:
+
+In this form we see that the eigenspectrum of the Hamiltonian is given in terms of a (bosonic) ground state, $\ket{0}$, that is annihilated by $\gamma_i$, $\eta_i$ and $c_i$ for every $i=1\dots N$, and excited states obtained from the raising operators $\gamma_i^\dagger$, $\eta_i^\dagger$, and $c_i^\dagger$.
+
+We now consider the first excited state of this system.  In order to preserve bosonic symmetry, we must use a symmetrized sum of the raising operators,
+$$\xi := \frac{1}{\sqrt{N}}\sum_i \eta_i.$$  Observe that due to the normalization factor, we have that $[\xi,xi^\dagger] = 1$.
+
+Define $\ket{1}:= \xi\ket{0}.$  We now want to examine the angular momentum of $\ket{1}$.  Observing that the position and momentum operators can be expressed in terms of the new ladder operators as follows,
 $$
-\begin{aligned}[]
-x_i &= \frac{1}{2\sqrt{\om}}[\gamma_i^\dagger + \gamma_i+ i(\eta_i^\dagger-\eta_i)]\\
-y_i &= \frac{1}{2\sqrt{\om}}[\eta_i^\dagger + \eta_i+ i(\gamma_i^\dagger-\gamma_i)]\\
-z_i &= \sqrt{\frac{1}{2\om}}[c_i^\dagger + c_i]\\
-p_{x_i} &= i\frac{\sqrt{\om}}{2}[\gamma_i^\dagger - \gamma_i + i(\eta_i^\dagger + \eta_i)]\\
-p_{y_i} &=i\frac{\sqrt{\om}}{2}[\eta_i^\dagger - \eta_i + i(\gamma_i^\dagger +\gamma_i)]\\
-p_{z_i} &=i\sqrt{\frac{\om}{2}}[c_i^\dagger - c_i]\\
-\end{aligned}
-$$
-We first shall write the angular momentum operators in terms of the ladder operators:
-$$
-\begin{aligned}
-J_{x_i} &= y_ip_{z_i} - z_ip_{y_i} =+ \sqrt{\frac{}{2m\om}}[\eta_i^\dagger + \eta_i+ i(\gamma_i^\dagger-\gamma_i)] i\sqrt{\frac{\om_z m}{2}}[c_i^\dagger - c_i] -  \sqrt{\frac{}{2m\om_z}}[c_i^\dagger+c_i]  i\sqrt{\frac{\om m}{2}}[\eta_i^\dagger - \eta_i + i(\gamma_i^\dagger + \gamma_i)] \\
-&= \frac{}{2}\left\{-\sqrt{\frac{\om_z}{\om}}[(\gamma_i^\dagger-\gamma_i) -i(\eta_i^\dagger + \eta_i)] [c_i^\dagger - c_i] +  \sqrt{\frac{\om}{\om_z}} [ (\gamma_i^\dagger + \gamma_i) -i(\eta_i^\dagger - \eta_i)][c_i^\dagger+c_i] \right\}\\
-J_{x_i}^2 &= \frac{^2}{4}\left\{-\sqrt{\frac{\om_z}{\om}}[(\gamma_i^\dagger-\gamma_i) -i(\eta_i^\dagger + \eta_i)] [c_i^\dagger - c_i] +  \sqrt{\frac{\om}{\om_z}} [ (\gamma_i^\dagger + \gamma_i) -i(\eta_i^\dagger - \eta_i)][c_i^\dagger+c_i] \right\}^2\\
-\end{aligned}
+x_i = \frac{1}{2\sqrt{\om}}[\gamma_i^\dagger + \gamma_i+ i(\eta_i^\dagger-\eta_i)],
+y_i = \frac{1}{2\sqrt{\om}}[\eta_i^\dagger + \eta_i+ i(\gamma_i^\dagger-\gamma_i)],
 $$
 $$
-\begin{aligned}
-J_{y_i} &= z_ip_{x_i} - x_ip_{z_i} = - \sqrt{\frac{}{2m\om}}[\gamma_i^\dagger + \gamma_i+ i(\eta_i^\dagger-\eta_i)]i\sqrt{\frac{\om_z m}{2}}[c_i^\dagger - c_i] + i\sqrt{\frac{\om m}{2}}[\gamma_i^\dagger - \gamma_i + i(\eta_i^\dagger + \eta_i)]\sqrt{\frac{}{2m\om_z}}[c_i^\dagger+c_i]\\
-&= \frac{}{2}\left\{\sqrt{\frac{\om_z}{\om}}[(\eta_i^\dagger-\eta_i) - i(\gamma_i^\dagger + \gamma_i)][c_i^\dagger - c_i] - \frac{}{2}[(\eta_i^\dagger + \eta_i)-i(\gamma_i^\dagger - \gamma_i)][c_i^\dagger+c_i]\right\}\\
-J_{z_i}&=\eta_i^\dagger\eta_i - \gamma_i^\dagger\gamma_i\\
-\end{aligned}
+z_i = \sqrt{\frac{1}{2\om}}[c_i^\dagger + c_i],
 $$
-Observe that $[J_{z_i},H]=0$, so that the $z$ component of angular momentum and the energy can be known simultaneously.  Furthermore, all states which are eigenstates of $\gamma_i^\dagger\gamma_i$ and $\eta_i^\dagger\eta_i$ are also eigenstates of $J_z$.
-Now let us consider $J_i^2$, so that we now need to calculate
+$$
+p_{x_i} = i\frac{\sqrt{\om}}{2}[\gamma_i^\dagger - \gamma_i + i(\eta_i^\dagger + \eta_i)],
+p_{y_i} =i\frac{\sqrt{\om}}{2}[\eta_i^\dagger - \eta_i + i(\gamma_i^\dagger +\gamma_i)],
+$$
+$$
+p_{z_i} =i\sqrt{\frac{\om}{2}}[c_i^\dagger - c_i],
+$$
+we see that therefore
+$$
+J_{z_i}=x_i p_{y_i} - y_i p_{x_i} = \eta_i^\dagger\eta_i - \gamma_i^\dagger\gamma_i
+$$
+Define $J_{\text{total}}:=\sum_i J_{z_i}$.  Observe that $[J_{z_i},H]=0$ and thus $[J_{\text{total}},H]=0$, so that the total $z$ component of angular momentum for the system and the energy of the entire system can be known simultaneously.  Next observe that $[J_{z_i},\eta_{i'}^\dagger]=\eta^\dagger \delta_{ii'}$, so that $[J_{z_i},\xi^\dagger]=\eta_i^\dagger$ and $[J_{\text{total}},\xi^\dagger]=\xi^\dagger$.  Because of this, $\xi^\dagger$ does not create an eigenstate of $z$ angular momentum for any singular particle, but rather it creates an eigenstate of the whole system with total $z$ angular momentum of 1, as we can see from the fact that
+$$J_{\text{total}} \xi^\dagger \ket{0} = \xi^\dagger J_{\text{total}} \ket{0} + \xi^\dagger \ket{0} = 1\cdot \xi^\dagger \ket{0}.$$
+Likewise, since $[H,\xi^\dagger] = \xi^\dagger (\om+\Omega)$, we see that this state has energy equal to $\om+\Omega+\frac{3}{2}$.
+
+Now, slightly abusing notation, we consider the state $\ket{N}:=\prod \eta_i^\dagger$.  
+
 \end{document}
-%@-node:gcross.20091027203719.1386:@thin FockDarwin.tex
-%@-leo

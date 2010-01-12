@@ -8,6 +8,7 @@ import Control.Applicative
 import Control.Applicative.Infix
 
 import Data.Complex
+import Data.Function
 
 import Data.Differentiable
 import Data.Differentiable.FunctionExpansion
@@ -30,13 +31,13 @@ import Test.QuickCheck
 -- @+others
 -- @+node:gcross.20091220080702.2090:Constants
 bigOmega :: Complex Double
-bigOmega = unsafePerformIO randomIO
+bigOmega = unsafePerformIO $ fmap (:+ 0) randomIO
 
 om :: Complex Double
-om = unsafePerformIO randomIO
+om = unsafePerformIO $ fmap (:+ 0) randomIO
 
 om_z :: Complex Double
-om_z = unsafePerformIO randomIO
+om_z = unsafePerformIO $ fmap (:+ 0) randomIO
 
 number_of_particles = 5
 all_variables = [(0 :> X)..((number_of_particles-1) :> Z)]
@@ -81,6 +82,14 @@ jy_ k = z_ k.px_ k - x_ k.pz_ k
 jz_ k = x_ k.py_ k - y_ k.px_ k
 -- @-node:gcross.20091220080702.2098:jx, jy, jz
 -- @-node:gcross.20091220080702.2093:Operators
+-- @+node:gcross.20091220115426.1762:Functions
+-- @+node:gcross.20091220115426.1764:vx, vy, vz
+vx_, vy_, vz_ :: Int -> DifferentiableFunction (Complex Double)
+vx_ k = v_ (k :> X)
+vy_ k = v_ (k :> Y)
+vz_ k = v_ (k :> Z)
+-- @-node:gcross.20091220115426.1764:vx, vy, vz
+-- @-node:gcross.20091220115426.1762:Functions
 -- @+node:gcross.20091220080702.2147:Harmonic Oscillator
 -- @+node:gcross.20091220080702.2150:hamiltonian
 hamiltonian = sum [(1/2) *| p_ k.p_ k + (om*om)/2 *| r_ k.r_ k | k <- all_variables]
@@ -90,19 +99,41 @@ hamiltonian = sum [(1/2) *| p_ k.p_ k + (om*om)/2 *| r_ k.r_ k | k <- all_variab
 ground_state :: DifferentiableFunction (Complex Double)
 ground_state = product [exp ((-om/2) *|| v_ k * v_ k) | k <- all_variables]
 -- @-node:gcross.20091220080702.2148:ground state
+-- @+node:gcross.20091220115426.1761:excited state
+excited_state :: DifferentiableFunction (Complex Double)
+excited_state = sum (map nt_ [0..number_of_particles-1]) . ground_state
+-- @-node:gcross.20091220115426.1761:excited state
 -- @-node:gcross.20091220080702.2147:Harmonic Oscillator
--- @+node:gcross.20091220080702.2392:Passed tests
--- @-node:gcross.20091220080702.2392:Passed tests
 -- @-others
 
 main = defaultMain
     -- @    << Tests >>
     -- @+node:gcross.20091220080702.2109:<< Tests >>
     -- @+others
-    -- @+node:gcross.20091220080702.2151:Correct ground state
-    [testProperty "Correct ground state" $
-        hamiltonian . ground_state . getArg =~= ((n*om/2) *|| ground_state) . getArg
-    -- @-node:gcross.20091220080702.2151:Correct ground state
+    -- @+node:gcross.20091220115426.1755:Phases
+    [testGroup "Phases"
+        -- @    @+others
+        -- @+node:gcross.20091220115426.1756:ground state
+        [testProperty "ground state" $
+            ((=~=) `on` (.map abs.getArg))
+                (realPart . abs . log . eval . ground_state)
+                (abs . realPart . log . eval . ground_state)
+        -- @-node:gcross.20091220115426.1756:ground state
+        -- @+node:gcross.20091220115426.1757:excited state
+        ,testProperty "excited state" $
+            ((=~=) `on` (.map abs.getArg))
+                (imagPart . log . eval . excited_state)
+                (imagPart . log . eval . sum [vy_ k - i*||vx_ k | k <- [0..number_of_particles-1]])
+        -- @-node:gcross.20091220115426.1757:excited state
+        -- @+node:gcross.20091220115426.1766:phase X derivative
+        ,testProperty "phase X derivative" $
+            ((=~=) `on` (.map abs.getArg))
+                (imagPart . eval . d X . log . sum [vy_ k - i*||vx_ k | k <- [0..number_of_particles-1]])
+                (negate . realPart . eval . recip . sum [vy_ k - i*||vx_ k | k <- [0..number_of_particles-1]])
+        -- @-node:gcross.20091220115426.1766:phase X derivative
+        -- @-others
+        ]
+    -- @-node:gcross.20091220115426.1755:Phases
     -- @-others
     -- @nonl
     -- @-node:gcross.20091220080702.2109:<< Tests >>

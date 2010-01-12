@@ -9,11 +9,18 @@
 <preferences/>
 <find_panel_settings/>
 <vnodes>
-<v t="gcross.20091203174755.1318" str_leo_pos="0"><vh>@chapters</vh></v>
+<v t="gcross.20091203174755.1318"><vh>@chapters</vh></v>
 <v t="gcross.20091204093401.3554"><vh>@thin test-fock.hs</vh></v>
 <v t="gcross.20091220080702.2088"><vh>@thin test-phase.hs</vh></v>
+<v t="gcross.20091220080702.2392"><vh>Passed tests</vh>
+<v t="gcross.20091220080702.2151"><vh>Correct ground state</vh></v>
+</v>
 </vnodes>
 <tnodes>
-<t tx="gcross.20091203174755.1318" str_leo_pos="1"></t>
+<t tx="gcross.20091203174755.1318" str_leo_pos="2"></t>
+<t tx="gcross.20091220080702.2151">[testProperty "Correct ground state" $
+    hamiltonian . ground_state . getArg =~= ((n*om/2) *|| ground_state) . getArg
+</t>
+<t tx="gcross.20091220080702.2392"></t>
 </tnodes>
 </leo_file>

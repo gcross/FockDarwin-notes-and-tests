@@ -30,13 +30,13 @@ import Test.QuickCheck
 -- @+others
 -- @+node:gcross.20091204093401.3561:Constants
 bigOmega :: Complex Double
-bigOmega = unsafePerformIO randomIO
+bigOmega = unsafePerformIO $ fmap (:+ 0) randomIO
 
 om :: Complex Double
-om = unsafePerformIO randomIO
+om = unsafePerformIO $ fmap (:+ 0) randomIO
 
 om_z :: Complex Double
-om_z = unsafePerformIO randomIO
+om_z = unsafePerformIO $ fmap (:+ 0) randomIO
 
 -- @-node:gcross.20091204093401.3561:Constants
 -- @+node:gcross.20091209132934.1287:Types
@@ -121,6 +121,10 @@ t1 = osum [gt.g,g.gt,nt.n,n.nt]
 t2 = nt.gt - n.g
 -- @-node:gcross.20091207130316.1296:t1/t2
 -- @-node:gcross.20091207130316.1295:Miscellaneous expressions
+-- @+node:gcross.20091220115426.1524:States
+ground_state = exp $ (om/2) *|| (-vx*vx-vy*vy)
+excited_state = nt . ground_state
+-- @-node:gcross.20091220115426.1524:States
 -- @-others
 
 main = defaultMain
@@ -256,8 +260,7 @@ main = defaultMain
         -- @-node:gcross.20091212141130.1634:d exp(-x^2)
         -- @+node:gcross.20091212141130.1649:nt on ground state
         ,testProperty "nt on ground state" $
-            liftA2 ((=~=) `on` (.getArg)) (nt.) ((sqrt(om) *| (y - i*|x) ).) (exp $ (om/2) *|| (-vx*vx-vy*vy))
-
+            ((=~=) `on` (.getArg)) excited_state ((sqrt(om) *| (y - i*|x)) . ground_state)
         -- @-node:gcross.20091212141130.1649:nt on ground state
         -- @-others
         ]
@@ -338,6 +341,36 @@ main = defaultMain
         -- @-others
         ]
     -- @-node:gcross.20091207130316.1274:Miscellaneous expressions
+    -- @+node:gcross.20091220115426.1516:Phases
+    ,testGroup "Phases"
+        -- @    @+others
+        -- @+node:gcross.20091220115426.1517:ground state
+        [testProperty "ground state" $
+            ((=~=) `on` (.map abs.getArg))
+                (realPart . abs . log . eval . ground_state)
+                (abs . realPart . log . eval . ground_state)
+        -- @-node:gcross.20091220115426.1517:ground state
+        -- @+node:gcross.20091220115426.1745:excited state
+        ,testProperty "excited state" $
+            ((=~=) `on` (.map abs.getArg))
+                (imagPart . log . eval . nt . ground_state)
+                (imagPart . log . eval . (vy - i*||vx))
+        -- @-node:gcross.20091220115426.1745:excited state
+        -- @+node:gcross.20091220115426.1747:phase X derivative
+        ,testProperty "phase X derivative" $
+            ((=~=) `on` (.map abs.getArg))
+                (imagPart . eval . d X . log . (vy - i*||vx))
+                (negate . realPart . eval . recip . (vy - i*||vx))
+        -- @-node:gcross.20091220115426.1747:phase X derivative
+        -- @+node:gcross.20091220115426.1749:phase Y derivative
+        ,testProperty "phase Y derivative" $
+            ((=~=) `on` (.map abs.getArg))
+                (imagPart . eval . d Y . log . (vy - i*||vx))
+                (imagPart . eval . recip . (vy - i*||vx))
+        -- @-node:gcross.20091220115426.1749:phase Y derivative
+        -- @-others
+        ]
+    -- @-node:gcross.20091220115426.1516:Phases
     -- @-others
     -- @nonl
     -- @-node:gcross.20091204093401.3593:<< Tests >>
